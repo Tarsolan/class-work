@@ -1,0 +1,11 @@
+CREATE TABLE test.stockpiles
+(
+    stockpile_id serial NOT NULL,
+    stockpile_name character varying NOT NULL,
+    owner_id smallint NOT NULL,
+    date_created date NOT NULL DEFAULT now(),
+    PRIMARY KEY (stockpile_id)
+);
+
+ALTER TABLE IF EXISTS test.stockpiles
+    OWNER to postgres;

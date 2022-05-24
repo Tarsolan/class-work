@@ -1,0 +1,13 @@
+-- Purchase item, add it to a stockpile. Each stockpile can contain many "purchases", but each purchase can go to 
+-- only 1 stockpile
+
+INSERT INTO test.purchases
+ 	(stockpile_id, item_id, quantity)
+VALUES (1, 2, 1);
+
+
+-- SELECT statement to show how they can be displayed together
+
+SELECT stockpile_name, item_name, item_cost, quantity, ((quantity*item_cost) / 100) AS total_cost, date_added FROM test.purchases
+JOIN test.items ON test.purchases.item_id = test.items.item_id
+JOIN test.stockpiles ON test.purchases.stockpile_id = test.stockpiles.stockpile_id;

@@ -1,0 +1,20 @@
+CREATE TABLE test.purchases
+(
+    purchase_id serial NOT NULL,
+    stockpile_id smallint NOT NULL,
+    item_id smallint NOT NULL,
+    date_added date NOT NULL DEFAULT now(),
+    CONSTRAINT stockpile_id FOREIGN KEY (stockpile_id)
+        REFERENCES test.stockpiles (stockpile_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT item_id FOREIGN KEY (item_id)
+        REFERENCES test.items (item_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+);
+
+ALTER TABLE IF EXISTS test.purchases
+    OWNER to postgres;

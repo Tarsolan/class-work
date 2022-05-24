@@ -1,0 +1,7 @@
+-- First, I will create an address for the family to live in, and make a note of the ID
+INSERT INTO address
+ 	(address, address2, district, city_id, postal_code, phone)
+VALUES ('123 QAP Street', '', 'Okinawa', 377, 'A1E 4S3', '1111222233334444');
+
+SELECT * FROM address
+ORDER BY address_id DESC

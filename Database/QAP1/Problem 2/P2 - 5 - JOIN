@@ -1,0 +1,3 @@
+-- 5. Join two or more tables using a JOIN clause.
+SELECT staff.first_name || ' ' || staff.last_name AS employee_name, store.* FROM store
+JOIN staff ON store.store_id = staff.store_id

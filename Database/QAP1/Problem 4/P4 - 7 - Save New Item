@@ -1,0 +1,8 @@
+-- Adds an item to the list of available items
+
+INSERT INTO test.items
+-- class is either 'armor' or 'weapon'
+	(class, item_name, item_cost, description)
+VALUES ('weapon', 'Dagger', '3999', 'Just a little prick.');
+
+SELECT * FROM test.items;

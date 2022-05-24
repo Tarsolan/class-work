@@ -1,0 +1,19 @@
+-- 1b. Add a family of new customers
+INSERT INTO customer
+ 	(store_id, first_name, last_name, email, address_id, activebool, create_date, active)
+VALUES (1, 'Yolanda', 'Smith', 'ysmith@gmail.com', 614, true, '2021-05-19', 1);
+
+INSERT INTO customer
+ 	(store_id, first_name, last_name, email, address_id, activebool, create_date, active)
+VALUES (1, 'John', 'Smith', 'jsmith@gmail.com', 614, true, '2021-05-19', 1);
+
+INSERT INTO customer
+ 	(store_id, first_name, last_name, email, address_id, activebool, create_date, active)
+VALUES (1, 'Rebecca', 'Smith', 'rebelrebecca@gmail.com', 614, true, '2021-05-19', 1);
+
+INSERT INTO customer
+ 	(store_id, first_name, last_name, email, address_id, activebool, create_date, active)
+VALUES (1, 'Little Timmy', 'Smith', 'icantbelievemyparentsnamedmelittletimmy@gmail.com', 614, true, '2021-05-19', 1);
+
+SELECT * FROM customer
+ORDER BY customer_id DESC

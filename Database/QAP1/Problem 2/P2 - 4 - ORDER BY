@@ -1,0 +1,4 @@
+-- 4. Order the results using an ORDER BY clause.
+SELECT rating, COUNT(rating) AS ratings FROM film
+GROUP BY rating
+ORDER BY ratings ASC

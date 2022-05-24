@@ -1,0 +1,7 @@
+-- Adding a new stockpile/warehouse
+
+INSERT INTO test.stockpiles
+	(stockpile_name, owner_id)
+VALUES ('Poor Man Paradise', '2');
+
+SELECT * FROM test.stockpiles;

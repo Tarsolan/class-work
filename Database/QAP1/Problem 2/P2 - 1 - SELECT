@@ -1,0 +1,2 @@
+-- 1. Reduce the number of columns displayed to four or less 
+SELECT title, description, release_year FROM film

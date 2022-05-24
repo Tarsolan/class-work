@@ -1,0 +1,12 @@
+CREATE TABLE test.items
+(
+    item_id serial NOT NULL,
+    class character varying NOT NULL,
+    item_name character varying NOT NULL,
+    item_cost integer NOT NULL,
+    description character varying,
+    PRIMARY KEY (item_id)
+);
+
+ALTER TABLE IF EXISTS test.items
+    OWNER to postgres;

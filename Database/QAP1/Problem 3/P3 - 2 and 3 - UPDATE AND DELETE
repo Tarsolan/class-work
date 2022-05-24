@@ -1,0 +1,16 @@
+-- Update address
+-- Create new address
+INSERT INTO address
+ 	(address, address2, district, city_id, postal_code, phone)
+VALUES ('124 QAP Street', '', 'Fejr', 512, 'A1B 4L9', '1111222233334444');
+
+-- Update customers living at id 614 to be now living at id 615
+UPDATE customer
+SET address_id = 615
+WHERE address_id = 614;
+
+-- Delete old address
+DELETE FROM address WHERE address_id=614;
+
+SELECT * FROM customer
+ORDER BY customer_id DESC
