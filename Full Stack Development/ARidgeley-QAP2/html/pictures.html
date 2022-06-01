@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Picture Album</title>
+  </head>
+  <body>
+    <h1>Pictures</h1>
+    <p>Just some pictures from unsplash, sorted into a grid.</p>
+
+    <div><a href="/">Click me to go home</a></div>
+
+    <hr />
+    <div class="grid-container">
+      <div>
+        <img
+          src="https://images.unsplash.com/photo-1653849753645-340aa6b4c636?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+          alt="Unsplash"
+          height="400"
+          width="450"
+        />
+      </div>
+      <div>
+        <img
+          src="https://images.unsplash.com/photo-1653892184794-bb382ec8d326?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80"
+          alt="Unsplash"
+          height="400"
+          width="450"
+        />
+      </div>
+      <div>
+        <img
+          src="https://images.unsplash.com/photo-1653858381366-7d1ec0b6b2d0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=715&q=80"
+          alt="Unsplash"
+          height="400"
+          width="450"
+        />
+      </div>
+      <div>
+        <img
+          src="https://images.unsplash.com/photo-1653781509531-c0f1cd64c223?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80"
+          alt="Unsplash"
+          height="400"
+          width="450"
+        />
+      </div>
+    </div>
+  </body>
+  <style>
+    html {
+      background-color: lightblue;
+    }
+
+    body {
+      border: 1px solid black;
+      border-radius: 8px;
+      margin: 3% 25%;
+      padding: 24px;
+      background-color: white;
+    }
+
+    h1 {
+      text-align: center;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 0.5fr);
+    }
+  </style>
+</html>
