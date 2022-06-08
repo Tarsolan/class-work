@@ -1,0 +1,236 @@
+--- Specialization Table --- 
+
+CREATE TABLE part2.specialization
+(
+    spec_id serial NOT NULL,
+    spec_name character varying(32) NOT NULL,
+    description character varying,
+    PRIMARY KEY (spec_id)
+);
+
+ALTER TABLE IF EXISTS part2.specialization
+    OWNER to postgres;
+
+--- Rank Table ---
+
+CREATE TABLE part2.rank
+(
+    rank_id serial NOT NULL,
+    rank_name character varying(32) NOT NULL,
+    description character varying,
+    PRIMARY KEY (rank_id)
+);
+
+ALTER TABLE IF EXISTS part2.rank
+    OWNER to postgres;
+
+COMMENT ON TABLE part2.rank
+    IS 'Stores info on different guild ranks';
+
+-- Member Table ---
+
+CREATE TABLE part2.member
+(
+    member_id serial NOT NULL,
+    first_name character varying(32) NOT NULL,
+    last_name character varying(32) NOT NULL,
+    race character varying(10) NOT NULL,
+    title character varying(32),
+    rank_id integer,
+    join_date date NOT NULL DEFAULT now(),
+    PRIMARY KEY (member_id),
+    CONSTRAINT rank FOREIGN KEY (rank_id)
+        REFERENCES part2.rank (rank_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+        NOT VALID
+);
+
+ALTER TABLE IF EXISTS part2.member
+    OWNER to postgres;
+
+COMMENT ON TABLE part2.member
+    IS 'Store info on guild members';
+
+--- Spec/Member JOIN Table ---
+
+CREATE TABLE part2.member_spec
+(
+    spec_id integer NOT NULL,
+    member_id integer NOT NULL,
+    last_update date NOT NULL DEFAULT now(),
+    PRIMARY KEY (spec_id, member_id),
+    CONSTRAINT specialization FOREIGN KEY (spec_id)
+        REFERENCES part2.specialization (spec_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT member FOREIGN KEY (member_id)
+        REFERENCES part2.member (member_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS part2.member_spec
+    OWNER to postgres;
+
+COMMENT ON TABLE part2.member_spec
+    IS 'Join table for members & their specializations';
+
+--- Client Table ---
+
+CREATE TABLE part2.client
+(
+    client_id serial NOT NULL,
+    status boolean NOT NULL DEFAULT true,
+    first_name character varying(32) NOT NULL,
+    last_name character varying(32) NOT NULL,
+    organization character varying(32),
+    description character varying,
+    PRIMARY KEY (client_id)
+);
+
+ALTER TABLE IF EXISTS part2.client
+    OWNER to postgres;
+
+COMMENT ON TABLE part2.client
+    IS 'Stores info on clients';
+
+--- Mission Table ---
+
+CREATE TABLE part2.mission
+(
+    mission_num serial NOT NULL,
+    job_name character varying(64) NOT NULL,
+    job_description character varying NOT NULL,
+    payout money NOT NULL,
+    creation_date date NOT NULL DEFAULT now(),
+    deadline_date date,
+    client_id integer,
+    PRIMARY KEY (mission_num),
+    CONSTRAINT client FOREIGN KEY (client_id)
+        REFERENCES part2.client (client_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS part2.mission
+    OWNER to postgres;
+
+COMMENT ON TABLE part2.mission
+    IS 'Stores data on missions';
+
+--- Mission Reports ---
+
+CREATE TABLE part2.mission_report
+(
+    report_id serial NOT NULL,
+    mission_num integer NOT NULL,
+    member_id integer NOT NULL,
+    report_details character varying NOT NULL,
+    PRIMARY KEY (report_id),
+    CONSTRAINT member FOREIGN KEY (member_id)
+        REFERENCES part2.member (member_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT mission FOREIGN KEY (mission_num)
+        REFERENCES part2.mission (mission_num) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS part2.mission_report
+    OWNER to postgres;
+
+COMMENT ON TABLE part2.mission_report
+    IS 'Members file missions reports for missions that they have made progress in';
+
+--- Products ---
+
+CREATE TABLE part2.product
+(
+    product_id serial NOT NULL,
+    name character varying(32) NOT NULL,
+    cost money NOT NULL,
+    description character varying,
+    PRIMARY KEY (product_id)
+);
+
+ALTER TABLE IF EXISTS part2.product
+    OWNER to postgres;
+
+COMMENT ON TABLE part2.product
+    IS 'Store information on products ';
+
+--- Mission Detail ---
+
+CREATE TABLE part2.mission_detail
+(
+    mission_detail_id serial NOT NULL,
+    mission_num integer NOT NULL,
+    product_id integer,
+    quantity integer,
+    detail_description character varying,
+    PRIMARY KEY (mission_detail_id),
+    CONSTRAINT mission_num FOREIGN KEY (mission_num)
+        REFERENCES part2.mission (mission_num) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT product_id FOREIGN KEY (product_id)
+        REFERENCES part2.product (product_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS part2.mission_detail
+    OWNER to postgres;
+
+COMMENT ON TABLE part2.mission_detail
+    IS 'Stores repeating details on specific missions';
+
+--- InvoiceMaster Table ---
+
+CREATE TABLE part2."invoiceMaster"
+(
+    invoice_num serial NOT NULL,
+    client_id integer NOT NULL,
+    invoice_date date NOT NULL DEFAULT now(),
+    tax_rate integer,
+    special_instructions character varying,
+    PRIMARY KEY (invoice_num),
+    CONSTRAINT client FOREIGN KEY (client_id)
+        REFERENCES part2.client (client_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS part2."invoiceMaster"
+    OWNER to postgres;
+
+COMMENT ON TABLE part2."invoiceMaster"
+    IS 'Invoice clients for product purchases';
+
+--- InvoiceDetail Table ---
+
+CREATE TABLE part2."invoiceDetail"
+(
+    detail_id serial NOT NULL,
+    invoice_num integer NOT NULL,
+    product_id integer NOT NULL,
+    quantity integer NOT NULL,
+    cost money NOT NULL,
+    PRIMARY KEY (detail_id),
+    CONSTRAINT product FOREIGN KEY (product_id)
+        REFERENCES part2.product (product_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT invoice FOREIGN KEY (invoice_num)
+        REFERENCES part2."invoiceMaster" (invoice_num) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS part2."invoiceDetail"
+    OWNER to postgres;
+
+COMMENT ON TABLE part2."invoiceDetail"
+    IS 'Contains information on specific invoices';

@@ -1,0 +1,181 @@
+--- Address Table ---
+
+CREATE TABLE qap2.address
+(
+    address_id serial NOT NULL,
+    street_line_1 character varying(32) NOT NULL,
+    street_line_2 character varying(32),
+    city character varying(32) NOT NULL,
+    province character varying(24) NOT NULL,
+    postal_code character varying(10) NOT NULL,
+    PRIMARY KEY (address_id)
+);
+
+ALTER TABLE IF EXISTS qap2.address
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.address
+    IS 'A place to store both student and campus addresses';
+
+--- University Table ---
+
+CREATE TABLE qap2.university
+(
+    university_id serial NOT NULL,
+    date_founded date NOT NULL,
+    address_id integer NOT NULL,
+    last_updated date DEFAULT now(),
+    PRIMARY KEY (university_id),
+    CONSTRAINT address FOREIGN KEY (address_id)
+        REFERENCES qap2.address (address_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);
+
+ALTER TABLE IF EXISTS qap2.university
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.university
+    IS 'Information on all company campuses';
+
+--- Program Table ---
+
+CREATE TABLE qap2.program
+(
+    program_id serial NOT NULL,
+    program_name character varying(32) NOT NULL,
+    description character varying,
+    program_cost money NOT NULL,
+    PRIMARY KEY (program_id)
+);
+
+ALTER TABLE IF EXISTS qap2.program
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.program
+    IS 'Information on programs offered by the university';
+
+--- Student Table --- 
+
+CREATE TABLE IF NOT EXISTS qap2.student
+(
+    student_id integer NOT NULL DEFAULT nextval('qap2.student_student_id_seq'::regclass),
+    first_name character varying(32) COLLATE pg_catalog."default" NOT NULL,
+    last_name character varying(32) COLLATE pg_catalog."default" NOT NULL,
+    university_id integer NOT NULL,
+    phone_num character varying(10) COLLATE pg_catalog."default",
+    email_address character varying(32) COLLATE pg_catalog."default" NOT NULL,
+    program_id integer NOT NULL,
+    CONSTRAINT student_pkey PRIMARY KEY (student_id),
+    CONSTRAINT program FOREIGN KEY (program_id)
+        REFERENCES qap2.program (program_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT university FOREIGN KEY (university_id)
+        REFERENCES qap2.university (university_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS qap2.student
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.student
+    IS 'Student Information';
+
+COMMENT ON CONSTRAINT program ON qap2.student
+    IS 'Student must be in a program';
+COMMENT ON CONSTRAINT university ON qap2.student
+    IS 'Student must be in a university';
+
+--- Student/Address Join Table ---
+
+CREATE TABLE qap2.address_xref_student
+(
+    student_id integer NOT NULL,
+    address_id integer NOT NULL,
+    address_type character varying(16) NOT NULL,
+    last_updated date NOT NULL DEFAULT now(),
+    PRIMARY KEY (student_id, address_id),
+    CONSTRAINT student FOREIGN KEY (student_id)
+        REFERENCES qap2.student (student_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT address FOREIGN KEY (address_id)
+        REFERENCES qap2.address (address_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS qap2.address_xref_student
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.address_xref_student
+    IS 'Join table to allow for students to hold mutliple addressess';
+
+--- Course Table ---
+
+CREATE TABLE qap2.course
+(
+    course_id serial NOT NULL,
+    course_title character varying(32) NOT NULL,
+    description character varying,
+    PRIMARY KEY (course_id)
+);
+
+ALTER TABLE IF EXISTS qap2.course
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.course
+    IS 'Information on courses offered within programs';
+
+--- Program/Course Join Table ---
+
+CREATE TABLE qap2.program_course
+(
+    program_id integer NOT NULL,
+    course_id integer NOT NULL,
+    last_updated date NOT NULL DEFAULT now(),
+    CONSTRAINT program_course_pkey PRIMARY KEY (program_id, course_id),
+    CONSTRAINT program_course_program_id_fkey FOREIGN KEY (program_id)
+        REFERENCES qap2.program (program_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT program_course_course_id_fkey FOREIGN KEY (course_id)
+        REFERENCES qap2.course (course_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS qap2.program_course
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.program_course
+    IS 'Joins courses with programs, so we know which programs contain which courses';
+
+--- Grades Table ---
+
+CREATE TABLE qap2.grades
+(
+    student_id integer NOT NULL,
+    course_id integer NOT NULL,
+    grade integer NOT NULL,
+    last_updated date NOT NULL DEFAULT now(),
+    PRIMARY KEY (student_id, course_id),
+    CONSTRAINT student FOREIGN KEY (student_id)
+        REFERENCES qap2.student (student_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT course FOREIGN KEY (course_id)
+        REFERENCES qap2.course (course_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS qap2.grades
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.grades
+    IS 'Stores course grades per student';

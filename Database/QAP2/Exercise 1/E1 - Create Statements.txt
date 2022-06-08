@@ -1,0 +1,29 @@
+CREATE TABLE qap2.province
+(
+    prov_id serial NOT NULL,
+    prov_name character varying NOT NULL,
+    PRIMARY KEY (prov_id)
+);
+
+ALTER TABLE IF EXISTS qap2.province
+    OWNER to postgres;
+
+------
+
+CREATE TABLE qap2.city
+(
+    city_id serial NOT NULL,
+    prov_id integer NOT NULL,
+    city_name character varying(64) NOT NULL,
+    description character varying,
+    population integer,
+    PRIMARY KEY (city_id),
+    FOREIGN KEY (prov_id)
+        REFERENCES qap2.province (prov_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS qap2.city
+    OWNER to postgres;
+

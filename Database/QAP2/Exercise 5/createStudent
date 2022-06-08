@@ -1,0 +1,32 @@
+CREATE TABLE IF NOT EXISTS qap2.student
+(
+    student_id integer NOT NULL DEFAULT nextval('qap2.student_student_id_seq'::regclass),
+    first_name character varying(32) COLLATE pg_catalog."default" NOT NULL,
+    last_name character varying(32) COLLATE pg_catalog."default" NOT NULL,
+    university_id integer NOT NULL,
+    phone_num character varying(10) COLLATE pg_catalog."default",
+    email_address character varying(32) COLLATE pg_catalog."default" NOT NULL,
+    program_id integer NOT NULL,
+    CONSTRAINT student_pkey PRIMARY KEY (student_id),
+    CONSTRAINT program FOREIGN KEY (program_id)
+        REFERENCES qap2.program (program_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT university FOREIGN KEY (university_id)
+        REFERENCES qap2.university (university_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS qap2.student
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.student
+    IS 'Student Information';
+
+COMMENT ON CONSTRAINT program ON qap2.student
+    IS 'Student must be in a program';
+COMMENT ON CONSTRAINT university ON qap2.student
+    IS 'Student must be in a university';

@@ -1,0 +1,21 @@
+CREATE TABLE qap2.program_course
+(
+    program_id integer NOT NULL,
+    course_id integer NOT NULL,
+    last_updated date NOT NULL DEFAULT now(),
+    CONSTRAINT program_course_pkey PRIMARY KEY (program_id, course_id),
+    CONSTRAINT program_course_program_id_fkey FOREIGN KEY (program_id)
+        REFERENCES qap2.program (program_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT program_course_course_id_fkey FOREIGN KEY (course_id)
+        REFERENCES qap2.course (course_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS qap2.program_course
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.program_course
+    IS 'Joins courses with programs, so we know which programs contain which courses';

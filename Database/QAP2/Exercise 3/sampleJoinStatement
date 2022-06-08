@@ -1,0 +1,3 @@
+SELECT quantity_printed, print_date, title, type FROM qap2.prints
+JOIN qap2.publication ON qap2.prints.pub_id = qap2.publication.pub_id
+WHERE print_date BETWEEN '2012-02-01' AND '2012-02-28';

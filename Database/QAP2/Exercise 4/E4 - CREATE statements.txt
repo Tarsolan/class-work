@@ -1,0 +1,137 @@
+--- User Table ---
+
+CREATE TABLE qap2."user"
+(
+    user_id serial NOT NULL,
+    first_name character varying(24) NOT NULL,
+    last_name character varying(24) NOT NULL,
+    username character varying(32) NOT NULL,
+    PRIMARY KEY (user_id)
+);
+
+ALTER TABLE IF EXISTS qap2."user"
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2."user"
+    IS 'Stores information on users - name and username';
+
+--- Genre Table ---
+
+CREATE TABLE qap2.genre
+(
+    genre_id serial NOT NULL,
+    genre_name character varying(24) NOT NULL,
+    PRIMARY KEY (genre_id)
+);
+
+ALTER TABLE IF EXISTS qap2.genre
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.genre
+    IS 'Stores info on different book genres';
+
+--- User Favourite Genre Table ---
+
+CREATE TABLE qap2.user_fav_genre
+(
+    user_id integer NOT NULL,
+    genre_id integer NOT NULL,
+    last_updated date NOT NULL DEFAULT now(),
+    PRIMARY KEY (user_id, genre_id),
+    CONSTRAINT "user" FOREIGN KEY (user_id)
+        REFERENCES qap2."user" (user_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT genre FOREIGN KEY (genre_id)
+        REFERENCES qap2.genre (genre_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS qap2.user_fav_genre
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.user_fav_genre
+    IS 'Join table for linking users with their favourite genres';
+
+--- Author Table ---
+
+CREATE TABLE qap2.author
+(
+    author_id serial NOT NULL,
+    first_name character varying(24) NOT NULL,
+    last_name character varying(24) NOT NULL,
+    age integer,
+    biography character varying,
+    PRIMARY KEY (author_id)
+);
+
+ALTER TABLE IF EXISTS qap2.author
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.author
+    IS 'Stores information on authors';
+
+--- User Favourite Author Table ---
+
+CREATE TABLE qap2.user_fav_author
+(
+    user_id integer NOT NULL,
+    author_id integer NOT NULL,
+    last_updated date NOT NULL DEFAULT now(),
+    PRIMARY KEY (user_id, author_id),
+    CONSTRAINT "user" FOREIGN KEY (user_id)
+        REFERENCES qap2."user" (user_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT author FOREIGN KEY (author_id)
+        REFERENCES qap2.author (author_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS qap2.user_fav_author
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.user_fav_author
+    IS 'Join table for linking users with their favourite authors';
+
+--- Email Table ---
+
+CREATE TABLE qap2.email
+(
+    email_id serial NOT NULL,
+    email_address character varying(32) NOT NULL,
+    PRIMARY KEY (email_id)
+);
+
+ALTER TABLE IF EXISTS qap2.email
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.email
+    IS 'Stores email addresses for users & authors';
+
+--- User/Email Table ---
+
+CREATE TABLE qap2.user_xref_email
+(
+    user_id integer NOT NULL,
+    email_id integer NOT NULL,
+    email_type character(12) NOT NULL,
+    last_updated date NOT NULL DEFAULT now(),
+    PRIMARY KEY (user_id, email_id),
+    CONSTRAINT "user" FOREIGN KEY (user_id)
+        REFERENCES qap2."user" (user_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT email FOREIGN KEY (email_id)
+        REFERENCES qap2.email (email_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS qap2.user_xref_email
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.user_xref_email
+    IS 'Join table for users and their email addresses - stores their type of address as well';

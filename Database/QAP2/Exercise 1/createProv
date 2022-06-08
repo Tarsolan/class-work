@@ -1,0 +1,9 @@
+CREATE TABLE qap2.province
+(
+    prov_id serial NOT NULL,
+    prov_name character varying NOT NULL,
+    PRIMARY KEY (prov_id)
+);
+
+ALTER TABLE IF EXISTS qap2.province
+    OWNER to postgres;

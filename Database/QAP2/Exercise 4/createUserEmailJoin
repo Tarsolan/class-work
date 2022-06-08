@@ -1,0 +1,22 @@
+CREATE TABLE qap2.user_xref_email
+(
+    user_id integer NOT NULL,
+    email_id integer NOT NULL,
+    email_type character(12) NOT NULL,
+    last_updated date NOT NULL DEFAULT now(),
+    PRIMARY KEY (user_id, email_id),
+    CONSTRAINT "user" FOREIGN KEY (user_id)
+        REFERENCES qap2."user" (user_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT email FOREIGN KEY (email_id)
+        REFERENCES qap2.email (email_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS qap2.user_xref_email
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.user_xref_email
+    IS 'Join table for users and their email addresses - stores their type of address as well';

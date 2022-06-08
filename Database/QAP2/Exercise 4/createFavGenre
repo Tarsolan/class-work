@@ -1,0 +1,21 @@
+CREATE TABLE qap2.user_fav_genre
+(
+    user_id integer NOT NULL,
+    genre_id integer NOT NULL,
+    last_updated date NOT NULL DEFAULT now(),
+    PRIMARY KEY (user_id, genre_id),
+    CONSTRAINT "user" FOREIGN KEY (user_id)
+        REFERENCES qap2."user" (user_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT genre FOREIGN KEY (genre_id)
+        REFERENCES qap2.genre (genre_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS qap2.user_fav_genre
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.user_fav_genre
+    IS 'Join table for linking users with their favourite genres';

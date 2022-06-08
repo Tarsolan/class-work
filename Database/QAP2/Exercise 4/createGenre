@@ -1,0 +1,12 @@
+CREATE TABLE qap2.genre
+(
+    genre_id serial NOT NULL,
+    genre_name character varying(24) NOT NULL,
+    PRIMARY KEY (genre_id)
+);
+
+ALTER TABLE IF EXISTS qap2.genre
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.genre
+    IS 'Stores info on different book genres';

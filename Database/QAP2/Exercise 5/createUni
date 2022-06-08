@@ -1,0 +1,18 @@
+CREATE TABLE qap2.university
+(
+    university_id serial NOT NULL,
+    date_founded date NOT NULL,
+    address_id integer NOT NULL,
+    last_updated date DEFAULT now(),
+    PRIMARY KEY (university_id),
+    CONSTRAINT address FOREIGN KEY (address_id)
+        REFERENCES qap2.address (address_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);
+
+ALTER TABLE IF EXISTS qap2.university
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.university
+    IS 'Information on all company campuses';

@@ -1,0 +1,22 @@
+CREATE TABLE qap2.grades
+(
+    student_id integer NOT NULL,
+    course_id integer NOT NULL,
+    grade integer NOT NULL,
+    last_updated date NOT NULL DEFAULT now(),
+    PRIMARY KEY (student_id, course_id),
+    CONSTRAINT student FOREIGN KEY (student_id)
+        REFERENCES qap2.student (student_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT course FOREIGN KEY (course_id)
+        REFERENCES qap2.course (course_id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+ALTER TABLE IF EXISTS qap2.grades
+    OWNER to postgres;
+
+COMMENT ON TABLE qap2.grades
+    IS 'Stores course grades per student';
