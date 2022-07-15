@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const bodyParser = require("body-parser");
-global.DEBUG = true;
+global.DEBUG = false;
 
 app.set("view engine", "ejs");
 app.use(express.json());
