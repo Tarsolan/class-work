@@ -1,0 +1,48 @@
+html {
+  margin: 1% 2%;
+}
+
+h2 {
+  text-decoration: underline;
+}
+
+.error {
+  background-color: red;
+  padding: 8px;
+  margin: 16px auto;
+  color: white;
+}
+
+.overdueFilm {
+  border: 2px solid black;
+}
+
+.overdueFilm span {
+  display: flex;
+  justify-content: space-between;
+  margin: auto 10%;
+}
+
+.overdueFilmContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: center;
+  gap: 24px;
+  margin: auto 12.5%;
+}
+
+#overdueTable {
+  width: 100%;
+  text-align: center;
+}
+
+#overdueTable thead {
+  padding-top: 11px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid black;
+  background-color: aqua;
+}
+
+#overdueTable td {
+  margin-right: 100px;
+}

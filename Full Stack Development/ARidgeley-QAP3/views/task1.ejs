@@ -1,0 +1,54 @@
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <header><%- include('./partials/nav.ejs') %></header>
+    <h2>Task 1</h2>
+    <form method="post">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Customer Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          placeholder="Enter email"
+          name="email"
+        />
+        <small id="emailHelp" class="form-text text-muted"
+          >We'll never share your email with anyone else.</small
+        >
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <hr />
+    <% if (locals.rentalInfo){ %>
+    <div style="text-align: center">
+      <h3>Displaying Rental Info for <%= locals.rentalInfo[0].name %></h3>
+      <small>Date Range: Last 12 months</small>
+    </div>
+    <br />
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Rental Date</th>
+          <th scope="col">Movie Name</th>
+          <th scope="col">Category</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% locals.rentalInfo.forEach((rental) => { %> <% var rentDate = new
+        Date(rental.rental_date) %>
+        <tr>
+          <td><%= rentDate.toLocaleDateString() %></td>
+          <td><strong><%= rental.title %></strong></td>
+          <td><%= rental.category_name %></td>
+          <td><%= rental.description %></td>
+        </tr>
+        <% })} %>
+      </tbody>
+    </table>
+  </body>
+  <%- include('./partials/footer.ejs') %>
+</html>
