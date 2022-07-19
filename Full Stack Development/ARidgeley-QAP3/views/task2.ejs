@@ -13,10 +13,11 @@
           placeholder="Enter employee username"
           name="username"
         />
-        <br />
         <% if (locals.message){ %>
         <p class="error"><%=locals.message %></p>
-        <% }%>
+        <% } else {%>
+        <br />
+        <% } %>
         <label for="exampleInputPassword1">Password</label>
         <input
           type="password"
@@ -37,7 +38,8 @@
     <% if (locals.overdueFilms){ %>
     <div style="text-align: center">
       <h3>
-        Displaying overdue movies for <%=locals.overdueFilms[0].city %> branch
+        Displaying unreturned movies for <%=locals.overdueFilms[0].city %>
+        branch
       </h3>
       <small>Manager Name: <%= locals.overdueFilms[0].staff_name %></small>
     </div>
