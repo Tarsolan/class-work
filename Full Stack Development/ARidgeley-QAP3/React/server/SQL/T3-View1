@@ -1,0 +1,27 @@
+-- View: public.vw_income_by_movie
+
+-- DROP VIEW public.vw_income_by_movie;
+
+CREATE OR REPLACE VIEW public.vw_income_by_movie
+ AS
+ SELECT fi.film_id,
+    fi.title,
+    sum(pay.amount) AS income,
+    ci.city AS branch,
+    cat.name AS category_name,
+    fi.description
+   FROM rental AS re
+     JOIN inventory AS inv USING (inventory_id)
+     JOIN store AS st USING (store_id)
+     JOIN film AS fi USING (film_id)
+     JOIN film_category USING (film_id)
+     JOIN category AS cat USING (category_id)
+     JOIN address AS ad USING (address_id)
+     JOIN city AS ci USING (city_id)
+     JOIN payment AS pay USING (rental_id)
+  GROUP BY fi.film_id, ci.city, cat.name
+  ORDER BY ci.city, (sum(pay.amount)) DESC;
+
+ALTER TABLE public.vw_income_by_movie
+    OWNER TO postgres;
+

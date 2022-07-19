@@ -1,0 +1,32 @@
+-- View: public.vw_overdueFilmByStore
+
+-- DROP VIEW public."vw_overdueFilmByStore";
+
+CREATE OR REPLACE VIEW public."vw_overdueFilmByStore"
+ AS
+ SELECT (cu.first_name::text || ' '::text) || cu.last_name::text AS name,
+    cu.email AS customer_email,
+    rental.rental_date,
+    rental.rental_id,
+    film.title,
+    film.description,
+    staff.email,
+    staff.username,
+    (staff.first_name::text || ' '::text) || staff.last_name::text AS staff_name,
+    city.city,
+    cat.name AS category_name
+   FROM customer cu
+     JOIN rental USING (customer_id)
+     JOIN inventory USING (inventory_id)
+     JOIN film USING (film_id)
+     JOIN staff USING (staff_id)
+     JOIN store ON staff.store_id = store.store_id
+     JOIN address ON store.address_id = address.address_id
+     JOIN city USING (city_id)
+     JOIN film_category USING (film_id)
+     JOIN category AS cat USING (category_id)
+  WHERE rental.return_date IS NULL;
+
+ALTER TABLE public."vw_overdueFilmByStore"
+    OWNER TO postgres;
+

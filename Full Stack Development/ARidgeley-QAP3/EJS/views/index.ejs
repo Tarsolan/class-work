@@ -1,0 +1,31 @@
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <header><%- include('./partials/nav.ejs') %></header>
+
+    <h2>Choose a task:</h2>
+    <ul>
+      <li>
+        <a href="task1"
+          >Task 1 - As a customer of dvdrental I would like to have a web page
+          so I can view the films I have rented in the last 12 months.</a
+        >
+      </li>
+      <li>
+        <a href="/task2"
+          >Task 2 - As a store manager at dvdrental I would like to have a web
+          page so I can view the films that have not been returned and the
+          customer who rented the film.</a
+        >
+      </li>
+      <li>
+        <a href="/task3"
+          >Task 3 - As the owner of dvdrental I would like to have a web page so
+          I can view the top ten rental films by rental dollars earned for a
+          particular store.</a
+        >
+      </li>
+    </ul>
+  </body>
+  <%- include('./partials/footer.ejs') %>
+</html>
