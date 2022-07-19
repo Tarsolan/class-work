@@ -1,0 +1,24 @@
+-- View: public.vw_top_10_movies_per_store
+
+-- DROP VIEW public.vw_top_10_movies_per_store;
+
+CREATE OR REPLACE VIEW public.vw_top_10_movies_per_store
+ AS
+ SELECT main_query.title,
+    main_query.income,
+    main_query.branch,
+    main_query.description,
+    main_query.category_name
+   FROM ( SELECT row_number() OVER (PARTITION BY t.branch ORDER BY t.income DESC) AS sub_query,
+            t.film_id,
+            t.title,
+            t.income,
+            t.branch,
+            t.description,
+            t.category_name
+           FROM vw_income_by_movie t) main_query
+  WHERE main_query.sub_query <= 10;
+
+ALTER TABLE public.vw_top_10_movies_per_store
+    OWNER TO postgres;
+

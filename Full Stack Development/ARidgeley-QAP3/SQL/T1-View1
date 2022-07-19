@@ -1,0 +1,25 @@
+-- View: public.vw_last12months
+
+-- DROP VIEW public.vw_last12months;
+
+CREATE OR REPLACE VIEW public.vw_last12months
+ AS
+ SELECT rental.rental_id,
+    (customer.first_name::text || ' '::text) || customer.last_name::text AS name,
+    customer.email,
+    film.description,
+    film.title,
+    rental.rental_date,
+    rental.return_date,
+    category.name AS category_name
+   FROM customer
+     JOIN rental USING (customer_id)
+     JOIN inventory USING (inventory_id)
+     JOIN film USING (film_id)
+     JOIN film_category USING (film_id)
+     JOIN category USING (category_id)
+  WHERE rental.rental_date > (CURRENT_DATE - '1 year'::interval);
+
+ALTER TABLE public.vw_last12months
+    OWNER TO postgres;
+
