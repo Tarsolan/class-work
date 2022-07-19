@@ -46,3 +46,26 @@ h2 {
 #overdueTable td {
   margin-right: 100px;
 }
+
+/* Nav */
+
+nav ul {
+  display: flex;
+  list-style: none;
+  justify-content: space-evenly;
+  width: 25%;
+  padding: 0px;
+  font-size: 16pt;
+}
+
+@media only screen and (max-width: 1180px) {
+  nav ul {
+    width: 45%;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  nav ul {
+    width: auto;
+  }
+}

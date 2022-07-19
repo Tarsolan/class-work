@@ -9,11 +9,11 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   let verified = await verifyPassword(req.body);
-  if (verified === true) {
+  if (verified === 0) {
     let overdueFilms = await getOverdueFilms(req.body);
     DEBUG && console.log(overdueFilms);
     res.render("task2", { overdueFilms });
-  } else if (verified === "Invalid Username") {
+  } else if (verified === 2) {
     let message = "Invalid Username. Please try again.";
     res.render("task2", { message });
   } else {

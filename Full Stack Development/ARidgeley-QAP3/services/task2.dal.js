@@ -23,13 +23,13 @@ const verifyPassword = async (body) => {
   try {
     if (password === res.rows[0].password) {
       DEBUG && console.log("Password verified.");
-      return true;
+      return 0;
     } else {
       DEBUG && console.log("Invalid password.");
-      return false;
+      return 1;
     }
   } catch (error) {
-    return "Invalid Username";
+    return 2;
   }
 };
 

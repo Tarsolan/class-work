@@ -9,9 +9,9 @@ const getTop10Films = async () => {
 
 const getTop10FilmsByBranch = async (name) => {
   let sql = `SELECT * FROM public.vw_top_10_movies_per_store
-    WHERE branch='${name}'`;
+    WHERE branch=$1`;
 
-  var res = await db.query(sql);
+  var res = await db.query(sql, [name]);
   return res.rows;
 };
 
