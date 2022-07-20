@@ -2,73 +2,79 @@
   <%- include('./partials/head.ejs') %>
   <body>
     <header><%- include('./partials/nav.ejs') %></header>
-    <h2>Task 2</h2>
-    <form method="post">
-      <div class="form-group">
-        <label for="exampleInputUser1">Employee Username</label>
-        <input
-          type="username"
-          class="form-control"
-          id="exampleInputUser1"
-          placeholder="Enter employee username"
-          name="username"
-        />
-        <% if (locals.message){ %>
-        <p class="error"><%=locals.message %></p>
-        <% } else {%>
-        <br />
-        <% } %>
-        <label for="exampleInputPassword1">Password</label>
-        <input
-          type="password"
-          class="form-control"
-          id="exampleInputPassword1"
-          placeholder="Enter password"
-          name="password"
-        />
-        <small
-          >Password (for testing purposes):
-          8cb2237d0679ca88db6464eac60da96345513964</small
-        >
+    <main>
+      <div class="form-container">
+        <h2>Task 2</h2>
+        <form method="post">
+          <div class="form-group col-md-5">
+            <label for="exampleInputUser1">Employee Username</label>
+            <input
+              type="username"
+              class="form-control"
+              id="exampleInputUser1"
+              placeholder="Enter employee username"
+              name="username"
+            />
+            <% if (locals.message){ %>
+            <p class="error"><%=locals.message %></p>
+            <% } else {%>
+            <br />
+            <% } %>
+            <label for="exampleInputPassword1">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="exampleInputPassword1"
+              placeholder="Enter password"
+              name="password"
+            />
+            <small
+              >Password (for testing purposes):
+              8cb2237d0679ca88db6464eac60da96345513964</small
+            >
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
       </div>
 
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    <hr />
-    <% if (locals.overdueFilms){ %>
-    <div style="text-align: center">
-      <h3>
-        Displaying unreturned movies for <%=locals.overdueFilms[0].city %>
-        branch
-      </h3>
-      <small>Manager Name: <%= locals.overdueFilms[0].staff_name %></small>
-    </div>
-    <br />
-    <table class="table table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">Movie Name</th>
-          <th scope="col">Date Rented</th>
-          <th scope="col">Rented By</th>
-          <th scope="col">Customer Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% locals.overdueFilms.forEach((rental) => { %> <% var rentDate = new
-        Date(rental.rental_date) %>
-        <tr>
-          <td><strong><%= rental.title %></strong></td>
-          <td><%= rentDate.toLocaleDateString() %></td>
-          <td><%= rental.name %></td>
-          <td><%= rental.customer_email %></td>
-        </tr>
-        <% }) %>
-      </tbody>
-    </table>
-
-    <% } %>
+      <% if (locals.overdueFilms){ %>
+      <div>
+        <hr />
+        <div style="text-align: center">
+          <h3>
+            Displaying unreturned movies for <%=locals.overdueFilms[0].city %>
+            branch
+          </h3>
+          <small>Manager Name: <%= locals.overdueFilms[0].staff_name %></small>
+        </div>
+        <br />
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Movie Name</th>
+              <th scope="col">Date Rented</th>
+              <th scope="col">Rented By</th>
+              <th scope="col">Customer Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% locals.overdueFilms.forEach((rental) => { %>
+            <tr>
+              <% var rentDate = new Date(rental.rental_date) %>
+              <td><strong><%= rental.title %></strong></td>
+              <td><%= rentDate.toLocaleDateString() %></td>
+              <td><%= rental.name %></td>
+              <td><%= rental.customer_email %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
+    </main>
+    <%- include('./partials/footer.ejs') %>
   </body>
-  <%- include('./partials/footer.ejs') %>
 </html>
 
 <!--      As a store manager at dvdrental I would like to have a web

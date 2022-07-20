@@ -8,18 +8,19 @@ CREATE OR REPLACE VIEW public.vw_income_by_movie
     fi.title,
     sum(pay.amount) AS income,
     ci.city AS branch,
+    st.store_id AS branch_id,
     cat.name AS category_name,
     fi.description
-   FROM rental AS re
-     JOIN inventory AS inv USING (inventory_id)
-     JOIN store AS st USING (store_id)
-     JOIN film AS fi USING (film_id)
+   FROM rental re
+     JOIN inventory inv USING (inventory_id)
+     JOIN store st USING (store_id)
+     JOIN film fi USING (film_id)
      JOIN film_category USING (film_id)
-     JOIN category AS cat USING (category_id)
-     JOIN address AS ad USING (address_id)
-     JOIN city AS ci USING (city_id)
-     JOIN payment AS pay USING (rental_id)
-  GROUP BY fi.film_id, ci.city, cat.name
+     JOIN category cat USING (category_id)
+     JOIN address ad USING (address_id)
+     JOIN city ci USING (city_id)
+     JOIN payment pay USING (rental_id)
+  GROUP BY fi.film_id, st.store_id, ci.city, cat.name
   ORDER BY ci.city, (sum(pay.amount)) DESC;
 
 ALTER TABLE public.vw_income_by_movie

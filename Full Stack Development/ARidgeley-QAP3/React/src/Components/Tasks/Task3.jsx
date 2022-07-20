@@ -5,7 +5,7 @@ const Task3 = ({ branches, films, getFilms }) => {
     return (
       <>
         {branches.map((branch) => {
-          return <option key={branch.store_id}>{branch.branch}</option>;
+          return <option key={branch.branch_id}>{branch.branch}</option>;
         })}
       </>
     );

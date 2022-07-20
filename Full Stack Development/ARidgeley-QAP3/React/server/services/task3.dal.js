@@ -1,7 +1,7 @@
 const db = require("./pgAdmin");
 
 const getBranchNames = async () => {
-  let sql = `SELECT city AS branch, store_id FROM store
+  let sql = `SELECT city AS branch, store_id AS branch_id FROM store
   JOIN address USING (address_id)
   JOIN city USING (city_id);`;
 

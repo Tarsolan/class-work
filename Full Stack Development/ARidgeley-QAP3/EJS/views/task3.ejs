@@ -2,53 +2,58 @@
   <%- include('./partials/head.ejs') %>
   <body>
     <header><%- include('./partials/nav.ejs') %></header>
-    <% var branch = {location: ""} %>
-    <h2>Task 3</h2>
-    <form method="post">
-      <div class="form-group">
-        <label for="branchLocation">Select Store Location</label>
-        <ul>
-          <li value="Lethbridge">
-            <a href="/task3/Lethbridge">Lethbridge</a>
-          </li>
-          <li>
-            <a href="/task3/Woodridge">Woodridge</a>
-          </li>
-        </ul>
+    <main>
+      <div class="form-container">
+        <h2>Task 3</h2>
+        <form method="post">
+          <div class="form-group">
+            <label for="branchLocation">Select Store Location</label>
+            <ul>
+              <% if (locals.branches) { locals.branches.forEach((store) => { %>
+              <li>
+                <a href="/task3/<%= store.branch_id%>"><%= store.branch%></a>
+              </li>
+              <% })} %>
+            </ul>
+          </div>
+        </form>
       </div>
-    </form>
-    <hr />
+      <% if (locals.top10Films) { %>
+        <div>
+          <hr />
+          <div style="text-align: center">
+            <h3><%=locals.top10Films[0].branch %> Branch</h3>
+            <small>Top 10 movies by amount earned</small>
+          </div>
 
-    <% if (locals.top10Films) { %>
-    <div style="text-align: center">
-      <h3><%=locals.top10Films[0].branch %> Branch</h3>
-      <small>Top 10 movies by amount earned</small>
-    </div>
+          <% var formats = { style: 'currency', currency: 'USD' } %>
+          <br />
+          <% var formatter = new Intl.NumberFormat('en-US', formats) %>
 
-    <br />
-    <table class="table table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">Movie Name</th>
-          <th scope="col">Film Description</th>
-          <th scope="col">Category</th>
-          <th scope="col">Income</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% var formatter = new Intl.NumberFormat('en-US',{ style: 'currency',
-        currency: 'USD' }); locals.top10Films.forEach((film) => { %>
-        <tr>
-          <td><strong><%= film.title %></strong></td>
-          <td><%= film.description %></td>
-          <td><%= film.category_name %></td>
-          <td><%= formatter.format(film.income) %></td>
-        </tr>
-        <% }) %>
-      </tbody>
-    </table>
-    <hr />
-    <% } %>
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Movie Name</th>
+                <th scope="col">Film Description</th>
+                <th scope="col">Category</th>
+                <th scope="col">Income</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% locals.top10Films.forEach((film) => { %>
+              <tr>
+                <td><strong><%= film.title %></strong></td>
+                <td><%= film.description %></td>
+                <td><%= film.category_name %></td>
+                <td><%= formatter.format(film.income) %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+        <% } %>
+      </div>
+    </main>
+    <%- include('./partials/footer.ejs') %>
   </body>
-  <%- include('./partials/footer.ejs') %>
 </html>
