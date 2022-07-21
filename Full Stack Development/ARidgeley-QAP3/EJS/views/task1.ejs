@@ -4,7 +4,7 @@
     <header><%- include('./partials/nav.ejs') %></header>
     <main>
       <div class="form-container">
-        <h2>Task 1</h2>
+        <h2>Task 1 - Display the movies you've rented in the last 12 months</h2>
         <form method="post">
           <div class="form-group col-md-4">
             <label for="exampleInputEmail1">Customer Email</label>
@@ -20,7 +20,10 @@
               >We'll never share your email with anyone else.</small
             >
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary">View Films</button>
+          <% if (locals.message){ %>
+          <p class="error"><%=locals.message %></p>
+          <% } %>
         </form>
       </div>
 
@@ -32,8 +35,8 @@
           <small>Date Range: Last 12 months</small>
         </div>
         <br />
-        <table class="table table-striped">
-          <thead class="thead-dark">
+        <table class="table">
+          <thead class="thead-light">
             <tr>
               <th scope="col">Rental Date</th>
               <th scope="col">Movie Name</th>

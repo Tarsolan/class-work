@@ -4,7 +4,7 @@
     <header><%- include('./partials/nav.ejs') %></header>
     <main>
       <div class="form-container">
-        <h2>Task 3</h2>
+        <h2>Task 3 - Display the top 10 movies at your chosen branch</h2>
         <form method="post">
           <div class="form-group">
             <label for="branchLocation">Select Store Location</label>
@@ -30,8 +30,8 @@
           <br />
           <% var formatter = new Intl.NumberFormat('en-US', formats) %>
 
-          <table class="table table-striped">
-            <thead class="thead-dark">
+          <table class="table">
+            <thead class="thead-light">
               <tr>
                 <th scope="col">Movie Name</th>
                 <th scope="col">Film Description</th>

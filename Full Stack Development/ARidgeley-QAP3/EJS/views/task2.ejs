@@ -4,7 +4,7 @@
     <header><%- include('./partials/nav.ejs') %></header>
     <main>
       <div class="form-container">
-        <h2>Task 2</h2>
+        <h2>Task 2 - Display unreturned movies at your store</h2>
         <form method="post">
           <div class="form-group col-md-5">
             <label for="exampleInputUser1">Employee Username</label>
@@ -12,7 +12,7 @@
               type="username"
               class="form-control"
               id="exampleInputUser1"
-              placeholder="Enter employee username"
+              placeholder="Enter username"
               name="username"
             />
             <% if (locals.message){ %>
@@ -34,7 +34,7 @@
             >
           </div>
 
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary">View Films</button>
         </form>
       </div>
 
@@ -49,8 +49,8 @@
           <small>Manager Name: <%= locals.overdueFilms[0].staff_name %></small>
         </div>
         <br />
-        <table class="table table-striped">
-          <thead class="thead-dark">
+        <table class="table">
+          <thead class="thead-light">
             <tr>
               <th scope="col">Movie Name</th>
               <th scope="col">Date Rented</th>

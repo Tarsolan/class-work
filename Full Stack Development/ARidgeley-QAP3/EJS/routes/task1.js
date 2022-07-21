@@ -9,7 +9,12 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   var rentalInfo = await getRentalInfo(req.body);
   DEBUG && console.log(rentalInfo);
-  res.render("task1", { rentalInfo });
+  if (rentalInfo[0] != undefined) {
+    res.render("task1", { rentalInfo });
+  } else {
+    let message = "Invalid user email. Please try again.";
+    res.render("task1", { message });
+  }
 });
 
 module.exports = router;
