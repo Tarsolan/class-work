@@ -9,16 +9,13 @@ import Index from "./Components/Partials/Index";
 import Task1 from "./Components/Tasks/Task1";
 import Task2 from "./Components/Tasks/Task2";
 import Task3 from "./Components/Tasks/Task3";
+import useFetch from "./Hooks/useFetch";
 
 function App() {
-  const [branches, setBranches] = useState(false);
+  const [branches] = useFetch("http://localhost:3001/task3/branches");
   const [films, setFilms] = useState(false);
   const [overdueFilms, setOverdueFilms] = useState(false);
   const [top10Films, setTop10Films] = useState(false);
-
-  useEffect(() => {
-    getBranches();
-  }, []);
 
   // General Use
   const infoToast = (message, type = "info") => {
@@ -114,13 +111,6 @@ function App() {
 
     const data = await res.json();
     setTop10Films(data);
-  };
-
-  const getBranches = async () => {
-    const res = await fetch("http://localhost:3001/task3/branches");
-    const data = await res.json();
-
-    setBranches(data);
   };
 
   return (
